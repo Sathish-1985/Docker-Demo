@@ -53,7 +53,8 @@ pipeline {
         stage('Run Docker container on Prodution server') {
              
           steps {
-             sh "docker -H ssh://jenkins@35.239.81.216 run -d -p 8085:8080 sathishsekhar/samplewebapp"
+             //sh "docker -H ssh://jenkins@35.239.81.216 run -d -p 8085:8080 sathishsekhar/samplewebapp"
+              sshPublisher(publishers: [sshPublisherDesc(configName: 'test-demo', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'docker  run -d -p 8085:8080 sathishsekhar/samplewebapp;', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'project/target', sourceFiles: '**/*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
  
             }
        }
